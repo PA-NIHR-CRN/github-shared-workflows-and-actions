@@ -1,0 +1,42 @@
+name: Validate Terraform
+
+on: 
+  workflow_call:
+    inputs:
+        path:
+          description: Path to the terraform configuration
+          required: false
+          type: string
+          default: .
+        terraform-version:
+          description: Version of terraform
+          required: false
+          type: string
+          default: 1.4.2
+        artifact-name:
+          type: string
+          default: ""
+jobs:
+  validate:
+    name: Perform validation
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Terraform Init
+      run: |
+           terraform init --backend=false
+
+    - name: Terraform Format
+      run: |
+            terraform fmt
+        
+    - name: Terraform Validate
+      run: |
+           terraform validate
+
+    - name: Terraform Plan
+      run: |
+           terraform plan -var="env=dev" 

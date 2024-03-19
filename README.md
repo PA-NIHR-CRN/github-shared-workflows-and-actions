@@ -1,0 +1,1 @@
+A collection of reusable workflows and actions that can be consumed by GitHub Actions in other repositories within the organisation.

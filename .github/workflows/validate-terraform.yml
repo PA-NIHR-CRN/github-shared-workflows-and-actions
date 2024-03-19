@@ -25,14 +25,30 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Terraform Init
+    - name: Terragrunt Initialise
+      working-directory: ${{ inputs.path }}
       run: |
-           terraform init --backend=false
+        terraform init --backend=false
 
-    - name: Terraform Format
-      run: |
-            terraform fmt
+    - name: Check formatting of Terraform files
+      uses: dflook/terraform-fmt-check@v1
+
+    - name: Run linting rules against Terraform files
+      uses: devops-infra/action-tflint@v0.3
+
+    - name: Run terraform validate
+      uses: dflook/terraform-validate@v1
+      with:
+        path: ${{ inputs.path }}
+
+    # - name: Terraform Init
+    #   run: |
+    #        terraform init --backend=false
+
+    # - name: Terraform Format
+    #   run: |
+    #         terraform fmt
         
-    - name: Terraform Validate
-      run: |
-           terraform validate
+    # - name: Terraform Validate
+    #   run: |
+    #        terraform validate

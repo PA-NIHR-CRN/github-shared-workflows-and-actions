@@ -25,7 +25,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Terragrunt Initialise
+    - name: Terraform Initialise
       working-directory: ${{ inputs.path }}
       run: |
         terraform init --backend=false
@@ -40,15 +40,3 @@ jobs:
       uses: dflook/terraform-validate@v1
       with:
         path: ${{ inputs.path }}
-
-    # - name: Terraform Init
-    #   run: |
-    #        terraform init --backend=false
-
-    # - name: Terraform Format
-    #   run: |
-    #         terraform fmt
-        
-    # - name: Terraform Validate
-    #   run: |
-    #        terraform validate

@@ -1,0 +1,44 @@
+name: 'Scan IaC Code'
+description: 'Scan Infrastructure as Code using Trivy'
+
+inputs:
+  scan-type:
+    description: 'Type of scan to perform'
+    required: false
+    default: 'config'
+  hide-progress:
+    description: 'Hide progress of the scan'
+    required: false
+    default: 'true'
+  format:
+    description: 'Output format of the scan results'
+    required: false
+    default: 'table'
+  exit-code:
+    description: 'Exit code when vulnerabilities were found'
+    required: false
+    default: '0'
+  ignore-unfixed:
+    description: 'Ignore unfixed vulnerabilities'
+    required: false
+    default: 'true'
+  severity:
+    description: 'Severity levels to scan for'
+    required: false
+    default: 'CRITICAL,HIGH'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@0.20.0
+      with:
+        scan-type: ${{ inputs.scan-type }}
+        hide-progress: ${{ inputs.hide-progress }}
+        format: ${{ inputs.format }}
+        exit-code: ${{ inputs.exit-code }}
+        ignore-unfixed: ${{ inputs.ignore-unfixed }}
+        severity: ${{ inputs.severity }}
